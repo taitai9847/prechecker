@@ -58,6 +58,13 @@ htmlcov/
 *.sqlite
 *.sqlite3
 
+# PostgreSQL
+*.sql.backup
+*.dump
+*.pgsql
+pgdata/
+postgres_data/
+
 # Temporary files
 tmp/
 temp/
@@ -65,4 +72,4 @@ temp/
 
 # Project specific
 *.csv
-*.ddl
+# *.ddl  # DDLファイルは管理する場合はコメントアウト
