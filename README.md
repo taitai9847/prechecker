@@ -20,21 +20,21 @@ pip install -r requirements.txt
 
 基本的な使い方:
 ```bash
-python main.py --ddl テーブル定義.sql --csv データ.csv
+python3 main.py --ddl テーブル定義.sql --csv データ.csv
 ```
 
 オプション付き:
 ```bash
 # エラーレポートの出力先を指定
-python main.py --ddl users.sql --csv users.csv --output errors.csv
+python3 main.py --ddl users.sql --csv users.csv --output errors.csv
 
 # CSVファイルのエンコーディングを指定（Shift_JIS等）
-python main.py --ddl users.sql --csv users.csv --encoding shift_jis
+python3 main.py --ddl users.sql --csv users.csv --encoding shift_jis
 ```
 
 ヘルプの表示:
 ```bash
-python main.py --help
+python3 main.py --help
 ```
 
 ## テスト
@@ -43,10 +43,10 @@ python main.py --help
 
 ```bash
 # 正常なCSVファイルのテスト
-python main.py --ddl tests/sample_users.sql --csv tests/sample_users_valid.csv
+python3 main.py --ddl tests/sample_users.sql --csv tests/sample_users_valid.csv
 
 # エラーのあるCSVファイルのテスト
-python main.py --ddl tests/sample_users.sql --csv tests/sample_users_invalid.csv
+python3 main.py --ddl tests/sample_users.sql --csv tests/sample_users_invalid.csv
 ```
 
 ## サポートしているデータ型
