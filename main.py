@@ -13,9 +13,9 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 使用例:
-  python main.py --ddl users.sql --csv users.csv
-  python main.py --ddl users.sql --csv users.csv --output errors.csv
-  python main.py --ddl users.sql --csv users.csv --encoding shift_jis
+  python3 main.py --ddl users.sql --csv users.csv
+  python3 main.py --ddl users.sql --csv users.csv --output errors.csv
+  python3 main.py --ddl users.sql --csv users.csv --encoding shift_jis
         """
     )
 
