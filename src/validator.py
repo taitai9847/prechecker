@@ -21,8 +21,8 @@ class DataTypeValidator:
         Returns:
             (is_valid, error_message) のタプル
         """
-        # 空文字列の処理
-        if value == '' or value is None:
+        # NULL値の判定（空文字列、None、または"NULL"/"null"文字列）
+        if value == '' or value is None or value.upper() == 'NULL':
             if nullable:
                 return True, ""
             else:
