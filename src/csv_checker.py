@@ -1,4 +1,3 @@
-"""CSVファイルの検証メインロジック"""
 import csv
 from typing import List, Dict, Tuple
 from dataclasses import dataclass
@@ -9,7 +8,6 @@ from .validator import DataTypeValidator
 
 @dataclass
 class ValidationError:
-    """バリデーションエラー情報"""
     row_number: int
     column_name: str
     value: str
@@ -20,8 +18,6 @@ class ValidationError:
 
 
 class CSVChecker:
-    """CSVファイルの検証を行うクラス"""
-
     def __init__(self, ddl_file_path: str, csv_file_path: str, encoding: str = 'utf-8'):
         """
         Args:
@@ -60,7 +56,6 @@ class CSVChecker:
         return len(self.errors) == 0, self.errors
 
     def _validate_csv(self):
-        """CSVファイルを1行ずつ検証"""
         try:
             with open(self.csv_file_path, 'r', encoding=self.encoding, newline='') as csvfile:
                 # CSVリーダーを作成（ヘッダー行を読み込む）
@@ -83,7 +78,6 @@ class CSVChecker:
             raise Exception(f"CSVファイルの読み込み中にエラーが発生しました: {e}")
 
     def _validate_headers(self, csv_headers: List[str]):
-        """CSVのヘッダーとDDLのカラム名が一致するか確認"""
         ddl_columns = set(self.columns.keys())
         csv_columns = set(csv_headers)
 
@@ -98,7 +92,6 @@ class CSVChecker:
             print(f"警告: CSVに存在するが、DDLに定義されていないカラム: {extra_columns}")
 
     def _validate_row(self, row_number: int, row: Dict[str, str]):
-        """1つの行（レコード）を検証"""
         # 全カラムを検証
         for column_name, column_def in self.columns.items():
             # CSVにカラムが存在しない場合
@@ -132,7 +125,6 @@ class CSVChecker:
                 )
 
     def get_error_summary(self) -> str:
-        """エラーサマリーを文字列で返す"""
         if not self.errors:
             return "エラーはありません。"
 
@@ -143,7 +135,6 @@ class CSVChecker:
         return summary
 
     def export_errors_to_file(self, output_file_path: str):
-        """エラーをファイルに出力"""
         with open(output_file_path, 'w', encoding='utf-8') as f:
             if not self.errors:
                 f.write("エラーはありません。\n")

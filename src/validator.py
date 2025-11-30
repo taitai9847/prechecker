@@ -1,4 +1,3 @@
-"""データ型のバリデーション処理"""
 import re
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
@@ -6,7 +5,6 @@ from typing import Tuple
 
 
 class DataTypeValidator:
-    """データ型のバリデーションを行うクラス"""
 
     @staticmethod
     def validate(value: str, data_type: str, nullable: bool) -> Tuple[bool, str]:
@@ -73,7 +71,6 @@ class DataTypeValidator:
 
     @staticmethod
     def _validate_integer(value: str, data_type: str) -> Tuple[bool, str]:
-        """整数型のバリデーション"""
         try:
             num = int(value)
 
@@ -102,7 +99,6 @@ class DataTypeValidator:
 
     @staticmethod
     def _validate_decimal(value: str, data_type: str) -> Tuple[bool, str]:
-        """DECIMAL/NUMERIC型のバリデーション"""
         try:
             dec_value = Decimal(value)
 
@@ -134,7 +130,6 @@ class DataTypeValidator:
 
     @staticmethod
     def _validate_float(value: str) -> Tuple[bool, str]:
-        """浮動小数点型のバリデーション"""
         try:
             float(value)
             return True, ""
@@ -143,7 +138,6 @@ class DataTypeValidator:
 
     @staticmethod
     def _validate_string(value: str, data_type: str) -> Tuple[bool, str]:
-        """文字列型のバリデーション"""
         # 長さチェック（例: VARCHAR(50)）
         length_match = re.search(r'\((\d+)\)', data_type)
         if length_match:
@@ -155,7 +149,6 @@ class DataTypeValidator:
 
     @staticmethod
     def _validate_date(value: str) -> Tuple[bool, str]:
-        """DATE型のバリデーション"""
         date_formats = ['%Y-%m-%d', '%Y/%m/%d', '%Y%m%d']
 
         for fmt in date_formats:
@@ -169,7 +162,6 @@ class DataTypeValidator:
 
     @staticmethod
     def _validate_datetime(value: str) -> Tuple[bool, str]:
-        """DATETIME/TIMESTAMP型のバリデーション"""
         datetime_formats = [
             '%Y-%m-%d %H:%M:%S',
             '%Y-%m-%d %H:%M:%S.%f',
@@ -188,7 +180,6 @@ class DataTypeValidator:
 
     @staticmethod
     def _validate_time(value: str) -> Tuple[bool, str]:
-        """TIME型のバリデーション"""
         time_formats = ['%H:%M:%S', '%H:%M']
 
         for fmt in time_formats:
@@ -202,7 +193,6 @@ class DataTypeValidator:
 
     @staticmethod
     def _validate_boolean(value: str) -> Tuple[bool, str]:
-        """BOOLEAN型のバリデーション"""
         value_lower = value.lower()
         valid_values = ['true', 'false', '1', '0', 't', 'f', 'yes', 'no', 'y', 'n']
 
