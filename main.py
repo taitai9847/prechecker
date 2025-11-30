@@ -1,4 +1,3 @@
-"""CSVインポート事前チェックツール - メインエントリーポイント"""
 import argparse
 import sys
 from pathlib import Path
