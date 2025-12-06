@@ -109,6 +109,10 @@ class CSVChecker:
 
             value = row[column_name]
 
+            # AUTO_INCREMENTカラムの場合、空値を許可
+            if column_def.auto_increment and (value == '' or value.upper() == 'NULL'):
+                continue
+
             # データ型検証
             is_valid, error_message = DataTypeValidator.validate(
                 value, column_def.data_type, column_def.nullable
