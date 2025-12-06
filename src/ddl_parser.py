@@ -8,10 +8,12 @@ class ColumnDefinition:
     name: str
     data_type: str
     nullable: bool = True
+    auto_increment: bool = False
 
     def __repr__(self):
         null_str = "NULL" if self.nullable else "NOT NULL"
-        return f"{self.name} {self.data_type} {null_str}"
+        auto_str = " AUTO_INCREMENT" if self.auto_increment else ""
+        return f"{self.name} {self.data_type} {null_str}{auto_str}"
 
 
 class DDLParser:
@@ -72,10 +74,53 @@ class DDLParser:
         # NULL制約をチェック
         nullable = 'NOT NULL' not in rest.upper()
 
-        return ColumnDefinition(name=column_name, data_type=data_type, nullable=nullable)
+        # AUTO_INCREMENT/SERIAL検出
+        auto_increment = self._is_auto_increment(rest, data_type)
+
+        return ColumnDefinition(
+            name=column_name,
+            data_type=data_type,
+            nullable=nullable,
+            auto_increment=auto_increment
+        )
+
+    def _is_auto_increment(self, definition: str, data_type: str) -> bool:
+        """
+        AUTO_INCREMENT/SERIAL属性を検出
+
+        対応パターン:
+        - MySQL: AUTO_INCREMENT
+        - PostgreSQL: SERIAL, BIGSERIAL, SMALLSERIAL
+        - PostgreSQL: GENERATED ... AS IDENTITY
+        - SQL Server: IDENTITY
+        """
+        definition_upper = definition.upper()
+
+        # AUTO_INCREMENTキーワード
+        if 'AUTO_INCREMENT' in definition_upper:
+            return True
+
+        # PostgreSQL SERIAL型
+        if data_type.upper() in ('SERIAL', 'BIGSERIAL', 'SMALLSERIAL'):
+            return True
+
+        # GENERATED ... AS IDENTITY
+        if 'GENERATED' in definition_upper and 'IDENTITY' in definition_upper:
+            return True
+
+        # SQL Server IDENTITY
+        if re.search(r'IDENTITY\s*\(', definition_upper):
+            return True
+
+        return False
 
     def _extract_data_type(self, definition: str) -> str:
         type_patterns = [
+            # PostgreSQL SERIAL型を追加
+            r'(BIGSERIAL)',
+            r'(SERIAL)',
+            r'(SMALLSERIAL)',
+            # 既存の型
             r'(INT(?:EGER)?(?:\(\d+\))?(?:\s+UNSIGNED)?)',
             r'(BIGINT(?:\(\d+\))?(?:\s+UNSIGNED)?)',
             r'(SMALLINT(?:\(\d+\))?(?:\s+UNSIGNED)?)',
