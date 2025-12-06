@@ -13,7 +13,7 @@ SQLテーブルのDDL定義ファイル(.sql)を元に、CSVファイルのデ�
 
 ```bash
 # 依存関係のインストール
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ## 使い方
